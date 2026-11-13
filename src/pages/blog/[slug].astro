@@ -1,0 +1,65 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getPosts, formatDate, slugify, type Post } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return posts.map((post) => {
+    // Önce aynı kategoriden yazılar, 3'e tamamlamak için en son yazılar
+    const others = posts.filter((p) => p.id !== post.id);
+    const sameCat = others.filter((p) => p.data.kategori === post.data.kategori);
+    const related: Post[] = [...sameCat, ...others.filter((p) => !sameCat.includes(p))].slice(0, 3);
+    return { params: { slug: post.id }, props: { post, related } };
+  });
+}) satisfies GetStaticPaths;
+
+const { post, related } = Astro.props;
+const { Content } = await render(post);
+const { baslik, tarih, kategori, ozet, kapak } = post.data;
+---
+
+<BaseLayout title={baslik} description={ozet}>
+  <article class="post">
+    <header class="container post-head">
+      <a href="/blog" class="back-link">← Tüm yazılar</a>
+      <p class="post-meta">
+        <a href={`/blog/kategori/${slugify(kategori)}`}>{kategori}</a>
+        <span aria-hidden="true">·</span>
+        <time datetime={tarih.toISOString().slice(0, 10)}>{formatDate(tarih)}</time>
+      </p>
+      <h1>{baslik}</h1>
+    </header>
+
+    <div class="container post-cover-wrap">
+      <div class="post-cover"><Photo file={kapak} alt={baslik} /></div>
+    </div>
+
+    <div class="container">
+      <div class="prose">
+        <Content />
+      </div>
+      <aside class="post-note">
+        Bu yazı genel bilgilendirme amaçlıdır, gerektiğinde bir uzmana başvurun.
+      </aside>
+    </div>
+  </article>
+
+  {
+    related.length > 0 && (
+      <section class="related">
+        <div class="container">
+          <h2 class="section-title">Bunlar da ilginizi çekebilir</h2>
+          <div class="post-grid">
+            {related.map((p) => (
+              <BlogCard href={`/blog/${p.id}`} title={p.data.baslik} date={p.data.tarih} excerpt={p.data.ozet} cover={p.data.kapak} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

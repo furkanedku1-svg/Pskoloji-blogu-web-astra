@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Photo from '../components/Photo.astro';
+import QuoteSection from '../components/QuoteSection.astro';
+import { site } from '../site.config';
+
+/*
+ * HAKKIMDA SAYFASI İÇERİĞİ
+ * Aşağıdaki listeler ve paragraflar örnek metindir; değiştirmeniz yeterli.
+ */
+
+const egitim = [
+  { baslik: 'Psikoloji Lisans', detay: 'Üniversite Adı · 20XX – 20XX' },
+  { baslik: 'Lise', detay: 'Okul Adı · 20XX – 20XX' },
+];
+
+const ilgiAlanlari = ['Kaygı ve stresle baş etme', 'İlişkiler ve iletişim', 'Duygu düzenleme', 'Kendine şefkat', 'Uyku ve günlük alışkanlıklar'];
+
+const sertifikalar = [
+  { baslik: 'Eğitim / sertifika adı', detay: 'Kurum adı · 20XX' },
+  { baslik: 'Eğitim / sertifika adı', detay: 'Kurum adı · 20XX' },
+  { baslik: 'Eğitim / sertifika adı', detay: 'Kurum adı · 20XX' },
+];
+---
+
+<BaseLayout title="Hakkımda">
+  <PageHeader title="Hakkımda" />
+
+  <section class="about">
+    <div class="container about-grid">
+      <div class="about-photo"><Photo file="hakkimda-portre.jpg" alt={`${site.name} portre`} /></div>
+      <div class="about-text">
+        <p class="about-hello">Merhaba, ben</p>
+        <h2 class="about-name">{site.name}</h2>
+        <p class="about-title">{site.title}</p>
+        <span class="short-rule" aria-hidden="true"></span>
+        <p>
+          Psikolojiye olan merakım, insanların neden böyle hissettiğini ve davrandığını anlamaya çalıştığım ergenlik
+          yıllarımda başladı. Çevremdekileri dinlemeyi, bir duygunun ardındaki hikâyeyi merak etmeyi hep sevdim. Bu merak
+          beni psikoloji eğitimine götürdü.
+        </p>
+        <p>
+          Özellikle kaygı, ilişkiler ve kendimizle kurduğumuz iletişim üzerine okumayı ve düşünmeyi seviyorum. Gündelik
+          hayatın küçük anlarının ruh hâlimizi ne kadar etkilediğini görmek bana her seferinde yeni bir şey öğretiyor.
+        </p>
+        <p>
+          Bu blogu, psikolojiyi herkesin anlayabileceği sade bir dille paylaşmak için açtım. Burada yazdıklarım bir uzman
+          desteğinin yerini tutmaz; ama belki bir duyguyu adlandırmana ya da kendine biraz daha nazik davranmana yardımcı
+          olur.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-boxes section-beige">
+    <div class="container boxes-grid">
+      <div class="info-box">
+        <h2>Eğitim</h2>
+        <ul>
+          {
+            egitim.map((e) => (
+              <li>
+                <strong>{e.baslik}</strong>
+                <span>{e.detay}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="info-box" id="ilgi-alanlari">
+        <h2>İlgi Alanlarım</h2>
+        <ul>{ilgiAlanlari.map((i) => <li>{i}</li>)}</ul>
+      </div>
+      <div class="info-box">
+        <h2>Katıldığım Eğitimler ve Sertifikalar</h2>
+        <ul>
+          {
+            sertifikalar.map((s) => (
+              <li>
+                <strong>{s.baslik}</strong>
+                <span>{s.detay}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="about-quote-gap"></div>
+
+  <QuoteSection
+    quote="Her duygu, anlaşılmayı bekleyen bir mesajdır."
+    image="hakkimda-alinti.jpg"
+    text="Duygularımızı bastırmak yerine onları merakla dinlemeyi öğrendiğimizde, kendimizle kurduğumuz ilişki de yavaş yavaş değişir. Yazılarımda bu merakı seninle paylaşmaya çalışıyorum."
+    button={{ label: 'Yazılarımı Oku', href: '/blog' }}
+  />
+</BaseLayout>

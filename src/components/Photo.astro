@@ -1,0 +1,36 @@
+---
+/**
+ * Fotoğraf bileşeni.
+ * public/images/<file> dosyası varsa gerçek fotoğrafı gösterir,
+ * yoksa yumuşak renkli bir yer tutucu kutu ve dosya adını gösterir.
+ * Yani fotoğrafı klasöre eklediğinizde kendiliğinden görünür.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  file: string;
+  alt?: string;
+  class?: string;
+}
+
+const { file, alt = '', class: className } = Astro.props;
+
+const exists = fs.existsSync(path.join(process.cwd(), 'public', 'images', file));
+
+// Dosya adına göre sabit bir yumuşak renk seç
+const tones = ['#DDE3D6', '#EADFD5', '#E8E2D4', '#DCE1E2', '#E6DCDD'];
+let hash = 0;
+for (const ch of file) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
+const tone = tones[hash % tones.length];
+---
+
+{
+  exists ? (
+    <img src={`/images/${file}`} alt={alt} class:list={['photo', className]} loading="lazy" decoding="async" />
+  ) : (
+    <div class:list={['photo', 'photo--placeholder', className]} style={`--ph: ${tone}`} role="img" aria-label={alt || file}>
+      <span>Fotoğraf: {file}</span>
+    </div>
+  )
+}

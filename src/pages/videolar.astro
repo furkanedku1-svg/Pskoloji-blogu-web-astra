@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import PlayIcon from '../components/PlayIcon.astro';
+import YouTubeIcon from '../components/YouTubeIcon.astro';
+import { getVideos } from '../lib/content';
+import { site } from '../site.config';
+
+const [latest, ...others] = await getVideos();
+---
+
+<BaseLayout title="Videolar" description="Psikoloji üzerine kısa ve sade videolar.">
+  {
+    latest && (
+      <section class="videos-hero section-dark">
+        <div class="container">
+          <p class="eyebrow">En Son Video</p>
+          <a href={latest.data.youtube} target="_blank" rel="noopener" class="video-main">
+            <div class="video-main-cover">
+              <Photo file={latest.data.kapak} alt="" />
+              <PlayIcon />
+            </div>
+            <h1 class="video-main-title">{latest.data.baslik}</h1>
+            <p class="video-main-desc">{latest.data.aciklama}</p>
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="videos-list">
+    <div class="container">
+      <h2 class="section-title">Tüm Videolar</h2>
+      <div class="video-grid">
+        {
+          others.map((v) => (
+            <a href={v.data.youtube} target="_blank" rel="noopener" class="video-card">
+              <div class="video-card-cover">
+                <Photo file={v.data.kapak} alt="" />
+                <PlayIcon />
+              </div>
+              <h3>{v.data.baslik}</h3>
+              <span class="short-rule" aria-hidden="true" />
+              <p>{v.data.aciklama}</p>
+            </a>
+          ))
+        }
+      </div>
+      <div class="center">
+        <a href={site.youtube.url} target="_blank" rel="noopener" class="btn btn--icon">
+          <YouTubeIcon size={20} />
+          YouTube kanalıma abone ol
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

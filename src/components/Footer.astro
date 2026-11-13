@@ -1,0 +1,39 @@
+---
+import { site, navLeft, navRight } from '../site.config';
+const links = [...navLeft, ...navRight];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <a href="/" class="brand brand--footer">
+      <span class="brand-name">{site.name}</span>
+      <span class="brand-title">{site.title}</span>
+    </a>
+    <hr class="footer-rule" />
+
+    <div class="footer-cols">
+      <div>
+        <h3>Şehir</h3>
+        <p>{site.city}</p>
+      </div>
+      <div>
+        <h3>İletişim</h3>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+      <div>
+        <h3>Sosyal Medya</h3>
+        <p><a href={site.instagram.url} target="_blank" rel="noopener">Instagram</a></p>
+        <p><a href={site.youtube.url} target="_blank" rel="noopener">YouTube</a></p>
+      </div>
+      <div>
+        <h3>Menü</h3>
+        {links.map((l) => <p><a href={l.href}>{l.label}</a></p>)}
+      </div>
+    </div>
+
+    <p class="footer-disclaimer">
+      Bu sitedeki yazılar bilgilendirme amaçlıdır, psikolojik destek veya tedavinin yerini tutmaz.
+    </p>
+    <p class="footer-copy">© {new Date().getFullYear()} {site.name}</p>
+  </div>
+</footer>

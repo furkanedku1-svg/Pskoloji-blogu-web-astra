@@ -1,0 +1,55 @@
+# VİDEO LİSTESİ
+# ------------------------------------------------------------
+# Yeni video eklemek için aşağıdaki bloklardan birini kopyalayıp
+# listenin en üstüne yapıştırın ve bilgileri değiştirin.
+#
+#   id:        Videoya kısa, benzersiz bir ad (Türkçe karakter ve boşluk olmadan)
+#   baslik:    Videonun başlığı
+#   aciklama:  Bir-iki cümlelik kısa açıklama
+#   youtube:   YouTube'daki video bağlantısı
+#   kapak:     public/images içindeki kapak fotoğrafının adı
+#   tarih:     Yayın tarihi (YIL-AY-GÜN). En yeni video en üstte, büyük gösterilir.
+#
+# Not: Satır başlarındaki boşluklar önemlidir, örneklerdeki gibi bırakın.
+
+- id: kaygiyla-bas-etmek
+  baslik: "Kaygıyla Baş Etmenin 5 Basit Yolu"
+  aciklama: "Gün içinde kaygı yükseldiğinde deneyebileceğin, birkaç dakikalık sade yöntemler."
+  youtube: "https://www.youtube.com/@kanaladi"
+  kapak: "video-kaygiyla-bas-etmek.jpg"
+  tarih: 2026-11-02
+
+- id: sinir-koymak
+  baslik: "Sınır Koymak Neden Önemli?"
+  aciklama: "“Hayır” demenin neden zor geldiğini ve küçük adımlarla nasıl başlanabileceğini konuşuyoruz."
+  youtube: "https://www.youtube.com/@kanaladi"
+  kapak: "video-sinir-koymak.jpg"
+  tarih: 2026-10-19
+
+- id: sakin-sabahlar
+  baslik: "Güne Sakin Başlamak İçin Küçük Alışkanlıklar"
+  aciklama: "Sabahları telefona uzanmadan önce yapabileceğin, zihni toparlayan basit alışkanlıklar."
+  youtube: "https://www.youtube.com/@kanaladi"
+  kapak: "video-sakin-sabahlar.jpg"
+  tarih: 2026-10-05
+
+- id: kendine-sefkat
+  baslik: "İç Sesimizle Tanışmak"
+  aciklama: "Kendimize nasıl konuştuğumuzu fark etmek ve bu sesi biraz daha yumuşatmak üzerine."
+  youtube: "https://www.youtube.com/@kanaladi"
+  kapak: "video-ic-ses.jpg"
+  tarih: 2026-09-21
+
+- id: uyku-ve-ruh-hali
+  baslik: "Uyku ve Ruh Hali Arasındaki Bağ"
+  aciklama: "Uykunun duygularımızı nasıl etkilediğini ve daha iyi uyumak için küçük önerileri anlatıyorum."
+  youtube: "https://www.youtube.com/@kanaladi"
+  kapak: "video-uyku.jpg"
+  tarih: 2026-09-07
+
+- id: duygulari-adlandirmak
+  baslik: "Duyguları Adlandırmak Neden İşe Yarar?"
+  aciklama: "“Kötüyüm” demek yerine ne hissettiğimizi daha net söyleyebilmenin faydaları."
+  youtube: "https://www.youtube.com/@kanaladi"
+  kapak: "video-duygular.jpg"
+  tarih: 2026-08-24

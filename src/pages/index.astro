@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import BlogCard from '../components/BlogCard.astro';
+import PlayIcon from '../components/PlayIcon.astro';
+import YouTubeIcon from '../components/YouTubeIcon.astro';
+import QuoteSection from '../components/QuoteSection.astro';
+import { getPosts, getVideos } from '../lib/content';
+import { site } from '../site.config';
+
+const posts = (await getPosts()).slice(0, 3);
+
+// En son video büyük, sonraki iki video küçük gösterilir
+const [mainVideo, ...rest] = await getVideos();
+const smallVideos = rest.slice(0, 2);
+---
+
+<BaseLayout>
+  <!-- 1. KARŞILAMA -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1>Merhaba, hoş geldin!</h1>
+        <p>
+          Ben {site.name}. Psikoloji mezunuyum ve bu blogda kaygı, ilişkiler, günlük yaşam ve kişisel gelişim üzerine
+          sade, anlaşılır yazılar paylaşıyorum. Amacım, zihnimizi ve duygularımızı biraz daha yakından tanımamıza
+          yardımcı olmak. Bir fincan çay al, rahatına bak.
+        </p>
+        <a href="/blog" class="btn">Yazıları Oku</a>
+      </div>
+      <div class="hero-media">
+        <div class="hero-main"><Photo file="hero-buyuk.jpg" alt="" /></div>
+        <div class="hero-portrait"><Photo file="hero-portre.jpg" alt={`${site.name} portre`} /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ÜÇ KUTU -->
+  <section class="features">
+    <div class="container features-grid">
+      <a href="/blog" class="feature">
+        <div class="feature-img"><Photo file="kutu-yazilar.jpg" alt="" /></div>
+        <h2>Yazılar</h2>
+      </a>
+      <a href="/hakkimda#ilgi-alanlari" class="feature feature--tall">
+        <div class="feature-img"><Photo file="kutu-ilgi-alanlari.jpg" alt="" /></div>
+        <h2>İlgi Alanlarım</h2>
+      </a>
+      <a href="/videolar" class="feature">
+        <div class="feature-img"><Photo file="kutu-videolar.jpg" alt="" /></div>
+        <h2>Videolar</h2>
+      </a>
+    </div>
+  </section>
+
+  <!-- 3. VİDEOLAR -->
+  <section class="videos section-dark">
+    <div class="container">
+      <p class="eyebrow">Videolar</p>
+      {
+        mainVideo && (
+          <a href={mainVideo.data.youtube} target="_blank" rel="noopener" class="video-main">
+            <div class="video-main-cover">
+              <Photo file={mainVideo.data.kapak} alt="" />
+              <PlayIcon />
+            </div>
+            <h2 class="video-main-title">{mainVideo.data.baslik}</h2>
+          </a>
+        )
+      }
+
+      <hr class="rule-light" />
+
+      <div class="video-row">
+        {
+          smallVideos.map((v) => (
+            <a href={v.data.youtube} target="_blank" rel="noopener" class="video-small">
+              <div class="video-small-cover">
+                <Photo file={v.data.kapak} alt="" />
+              </div>
+              <span class="video-small-title">{v.data.baslik}</span>
+            </a>
+          ))
+        }
+        <a href={site.youtube.url} target="_blank" rel="noopener" class="yt-link">
+          <YouTubeIcon />
+          <span>YouTube kanalıma katıl!</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. BLOG -->
+  <section class="blog-preview">
+    <div class="container">
+      <h2 class="section-title">Blog</h2>
+      <div class="post-grid">
+        {
+          posts.map((p) => (
+            <BlogCard href={`/blog/${p.id}`} title={p.data.baslik} date={p.data.tarih} excerpt={p.data.ozet} cover={p.data.kapak} />
+          ))
+        }
+      </div>
+      <div class="center">
+        <a href="/blog" class="btn">Tüm Yazılar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. ALINTI -->
+  <QuoteSection
+    quote="Kendini anlamak, değişmenin ilk adımıdır."
+    image="alinti-dikey.jpg"
+    text="Hepimizin zaman zaman zorlandığı, kendini anlamakta güçlük çektiği dönemler olur. Burada yazdıklarım bir sohbetin başlangıcı gibi: Belki bir duygunu adlandırmana, belki de kendine biraz daha nazik davranmana yardımcı olur."
+  />
+</BaseLayout>

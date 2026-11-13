@@ -1,0 +1,96 @@
+---
+/**
+ * Blog sayfasının gövdesi: kategori düğmeleri, yazı kartları ve sayfa numaraları.
+ * /blog, /blog/sayfa/2, /blog/kategori/kaygi, /blog/kategori/kaygi/sayfa/2 ... sayfalarında kullanılır.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from './PageHeader.astro';
+import BlogCard from './BlogCard.astro';
+import type { Post } from '../lib/content';
+
+interface Props {
+  posts: Post[]; // bu sayfada gösterilecek yazılar
+  categories: { label: string; slug: string }[];
+  activeCategory?: string; // slug, yoksa "Tümü"
+  page: number;
+  totalPages: number;
+}
+
+const { posts, categories, activeCategory, page, totalPages } = Astro.props;
+
+const base = activeCategory ? `/blog/kategori/${activeCategory}` : '/blog';
+const pageUrl = (n: number) => (n === 1 ? base : `${base}/sayfa/${n}`);
+const activeLabel = categories.find((c) => c.slug === activeCategory)?.label;
+
+const pageTitle = [activeLabel ? `Blog · ${activeLabel}` : 'Blog', page > 1 ? `Sayfa ${page}` : ''].filter(Boolean).join(' – ');
+---
+
+<BaseLayout title={pageTitle}>
+  <PageHeader
+    title="Blog"
+    description="Kaygı, ilişkiler, günlük yaşam ve kişisel gelişim üzerine sade, anlaşılır yazılar. Kendine biraz zaman ayır ve merak ettiğin konuyu seç."
+  />
+
+  <section class="blog-list" id="yazilar">
+    <div class="container">
+      <nav class="filter" aria-label="Kategoriler">
+        <a href="/blog#yazilar" class:list={['pill', { 'is-active': !activeCategory }]} aria-current={!activeCategory ? 'page' : undefined}>
+          Tümü
+        </a>
+        {
+          categories.map((c) => (
+            <a
+              href={`/blog/kategori/${c.slug}#yazilar`}
+              class:list={['pill', { 'is-active': c.slug === activeCategory }]}
+              aria-current={c.slug === activeCategory ? 'page' : undefined}
+            >
+              {c.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      {
+        posts.length ? (
+          <div class="post-grid post-grid--list">
+            {posts.map((p) => (
+              <BlogCard href={`/blog/${p.id}`} title={p.data.baslik} date={p.data.tarih} excerpt={p.data.ozet} cover={p.data.kapak} />
+            ))}
+          </div>
+        ) : (
+          <p class="empty">Bu kategoride henüz yazı yok. Yakında burada olacak.</p>
+        )
+      }
+
+      {
+        totalPages > 1 && (
+          <nav class="pagination" aria-label="Sayfalar">
+            {page > 1 ? (
+              <a href={`${pageUrl(page - 1)}#yazilar`} class="pill">
+                ← Önceki
+              </a>
+            ) : (
+              <span class="pill is-disabled">← Önceki</span>
+            )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+              <a
+                href={`${pageUrl(n)}#yazilar`}
+                class:list={['pill', 'pill--num', { 'is-active': n === page }]}
+                aria-current={n === page ? 'page' : undefined}
+              >
+                {n}
+              </a>
+            ))}
+            {page < totalPages ? (
+              <a href={`${pageUrl(page + 1)}#yazilar`} class="pill">
+                Sonraki →
+              </a>
+            ) : (
+              <span class="pill is-disabled">Sonraki →</span>
+            )}
+          </nav>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

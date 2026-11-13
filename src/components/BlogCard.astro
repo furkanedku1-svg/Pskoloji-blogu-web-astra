@@ -1,0 +1,30 @@
+---
+import Photo from './Photo.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  date: Date;
+  excerpt: string;
+  cover: string;
+}
+
+const { href, title, date, excerpt, cover } = Astro.props;
+const months = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+const day = String(date.getUTCDate()).padStart(2, '0');
+const month = months[date.getUTCMonth()];
+const iso = date.toISOString().slice(0, 10);
+---
+
+<article class="post-card">
+  <a href={href} class="post-card-media">
+    <Photo file={cover} alt={title} />
+    <time class="date-badge" datetime={iso}>
+      <span class="date-day">{day}</span>
+      <span class="date-month">{month}</span>
+    </time>
+  </a>
+  <h3 class="post-card-title"><a href={href}>{title}</a></h3>
+  <span class="short-rule" aria-hidden="true"></span>
+  <p class="post-card-excerpt">{excerpt}</p>
+</article>

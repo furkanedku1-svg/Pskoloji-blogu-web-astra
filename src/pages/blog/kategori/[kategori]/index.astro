@@ -1,0 +1,23 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BlogList from '../../../../components/BlogList.astro';
+import { getPosts, getCategories, chunk, slugify } from '../../../../lib/content';
+
+// /blog/kategori/kaygi, /blog/kategori/iliskiler ...
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  const categories = getCategories(posts);
+  return categories.map((c) => {
+    const pages = chunk(posts.filter((p) => slugify(p.data.kategori) === c.slug));
+    return {
+      params: { kategori: c.slug },
+      props: { items: pages[0], categories, totalPages: pages.length },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { kategori } = Astro.params;
+const { items, categories, totalPages } = Astro.props;
+---
+
+<BlogList posts={items} categories={categories} activeCategory={kategori} page={1} totalPages={totalPages} />

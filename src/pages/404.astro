@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<BaseLayout title="Sayfa bulunamadı">
+  <PageHeader title="Sayfa bulunamadı" description="Aradığın sayfa taşınmış ya da hiç var olmamış olabilir." />
+  <div class="center not-found">
+    <a href="/" class="btn">Anasayfaya Dön</a>
+  </div>
+</BaseLayout>

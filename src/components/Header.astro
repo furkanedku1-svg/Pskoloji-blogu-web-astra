@@ -1,0 +1,63 @@
+---
+import { site, navLeft, navRight } from '../site.config';
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? current === '/' : current === href || current.startsWith(href + '/'));
+const allLinks = [...navLeft, ...navRight];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <nav class="nav nav--left" aria-label="Ana menü">
+      {
+        navLeft.map((l) => (
+          <a href={l.href} class:list={['nav-link', { active: isActive(l.href) }]} aria-current={isActive(l.href) ? 'page' : undefined}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a href="/" class="brand">
+      <span class="brand-name">{site.name}</span>
+      <span class="brand-title">{site.title}</span>
+    </a>
+
+    <div class="nav nav--right">
+      {
+        navRight.map((l) => (
+          <a href={l.href} class:list={['nav-link', { active: isActive(l.href) }]} aria-current={isActive(l.href) ? 'page' : undefined}>
+            {l.label}
+          </a>
+        ))
+      }
+      <a href="/iletisim" class="btn btn--sm">Bana Ulaşın</a>
+    </div>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menüyü aç">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <nav id="mobile-menu" class="mobile-menu" aria-label="Mobil menü">
+    {
+      allLinks.map((l) => (
+        <a href={l.href} class:list={['nav-link', { active: isActive(l.href) }]} aria-current={isActive(l.href) ? 'page' : undefined}>
+          {l.label}
+        </a>
+      ))
+    }
+    <a href="/iletisim" class="btn">Bana Ulaşın</a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.setAttribute('aria-label', open ? 'Menüyü aç' : 'Menüyü kapat');
+    menu?.classList.toggle('is-open', !open);
+  });
+</script>
