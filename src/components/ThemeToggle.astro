@@ -4,7 +4,6 @@
 
 <button
   type="button"
-  id="theme-toggle"
   class="theme-toggle"
   aria-label="Karanlık modu değiştir"
   title="Karanlık / Aydınlık Mod"
@@ -68,18 +67,18 @@
 
 <script>
   function setupThemeToggle() {
-    const btn = document.getElementById('theme-toggle');
-    const mobileBtn = document.getElementById('mobile-theme-toggle');
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.theme-toggle');
 
     const toggle = () => {
       const current = document.documentElement.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
+      localStorage.setItem('site-theme', next);
     };
 
-    btn?.addEventListener('click', toggle);
-    mobileBtn?.addEventListener('click', toggle);
+    buttons.forEach((btn) => {
+      btn.onclick = toggle;
+    });
   }
 
   setupThemeToggle();

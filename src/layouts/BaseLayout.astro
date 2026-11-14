@@ -29,9 +29,8 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} · ${site.ti
       rel="stylesheet"
     />
     <script is:inline>
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      const savedTheme = localStorage.getItem('site-theme');
+      if (savedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
       } else {
         document.documentElement.setAttribute('data-theme', 'light');
