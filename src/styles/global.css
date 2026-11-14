@@ -27,14 +27,14 @@
   --cream: #121312;
   --ink: #f3f1ec;
   --green: #608068;
-  --dark: #1a1c1a;
+  --dark: #181918;
   --beige: #222522;
   --muted: #a3a8a2;
   --line: rgba(243, 241, 236, 0.16);
   --card-bg: #181a18;
   --placeholder-bg: #222522;
   --placeholder-color: rgba(243, 241, 236, 0.7);
-  --play-bg: #252825;
+  --play-bg: #2a2d2a;
   --play-color: #f3f1ec;
 }
 
@@ -118,7 +118,16 @@ img {
 
 .section-dark {
   background: var(--dark);
-  color: var(--cream);
+  color: #fbf8f3;
+}
+
+[data-theme='dark'] .section-dark {
+  background: var(--dark);
+  color: var(--ink);
+}
+
+.section-dark a {
+  color: inherit;
 }
 
 .section-beige {
