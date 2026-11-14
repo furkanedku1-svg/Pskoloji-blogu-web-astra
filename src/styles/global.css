@@ -9,6 +9,7 @@
   --beige: #e3e1d8;
   --muted: #5d5f5b;
   --line: rgba(25, 26, 25, 0.18);
+  --card-bg: #fbf8f3;
 
   --font-head: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Quicksand', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -16,6 +17,17 @@
   --container: 1180px;
   --gutter: clamp(20px, 5vw, 48px);
   --section: clamp(72px, 10vw, 128px);
+}
+
+[data-theme='dark'] {
+  --cream: #121312;
+  --ink: #f3f1ec;
+  --green: #608068;
+  --dark: #1a1c1a;
+  --beige: #252825;
+  --muted: #9fa49e;
+  --line: rgba(243, 241, 236, 0.14);
+  --card-bg: #181a18;
 }
 
 *,
@@ -298,24 +310,35 @@ img {
   transform: translateY(-7.5px) rotate(-45deg);
 }
 
+.mobile-actions {
+  display: none;
+}
+
 .mobile-menu {
   display: none;
 }
 
 @media (max-width: 900px) {
   .header-inner {
-    grid-template-columns: 44px 1fr 44px;
+    grid-template-columns: 1fr auto;
     padding-block: 22px;
   }
   .nav {
     display: none;
   }
   .brand {
+    grid-column: 1;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     grid-column: 2;
   }
   .menu-toggle {
     display: flex;
-    grid-column: 3;
   }
   .mobile-menu {
     display: flex;
