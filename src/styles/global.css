@@ -10,6 +10,10 @@
   --muted: #5d5f5b;
   --line: rgba(25, 26, 25, 0.18);
   --card-bg: #fbf8f3;
+  --placeholder-bg: #e8e2d4;
+  --placeholder-color: rgba(25, 26, 25, 0.6);
+  --play-bg: #ffffff;
+  --play-color: #191a19;
 
   --font-head: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Quicksand', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -24,10 +28,14 @@
   --ink: #f3f1ec;
   --green: #608068;
   --dark: #1a1c1a;
-  --beige: #252825;
-  --muted: #9fa49e;
-  --line: rgba(243, 241, 236, 0.14);
+  --beige: #222522;
+  --muted: #a3a8a2;
+  --line: rgba(243, 241, 236, 0.16);
   --card-bg: #181a18;
+  --placeholder-bg: #222522;
+  --placeholder-color: rgba(243, 241, 236, 0.7);
+  --play-bg: #252825;
+  --play-color: #f3f1ec;
 }
 
 *,
@@ -189,8 +197,8 @@ img {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: var(--ph, #e8e2d4);
-  color: rgba(25, 26, 25, 0.55);
+  background: var(--ph, var(--placeholder-bg));
+  color: var(--placeholder-color);
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -198,11 +206,16 @@ img {
   position: relative;
 }
 
+[data-theme='dark'] .photo--placeholder {
+  background: var(--placeholder-bg);
+  color: var(--placeholder-color);
+}
+
 .photo--placeholder::after {
   content: '';
   position: absolute;
   inset: 10px;
-  border: 1px dashed rgba(25, 26, 25, 0.18);
+  border: 1px dashed var(--line);
   pointer-events: none;
 }
 
@@ -213,20 +226,30 @@ img {
   position: relative;
   z-index: 20;
   background: var(--cream);
+  border-bottom: 1px solid var(--line);
 }
 
 .header-inner {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
-  gap: 24px;
-  padding-block: 30px;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 24px;
+}
+
+.header-inner > .nav--left,
+.header-inner > .nav--right {
+  flex: 1 1 0;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: clamp(18px, 2.4vw, 34px);
+  gap: clamp(14px, 1.8vw, 28px);
+}
+
+.nav--left {
+  justify-content: flex-start;
 }
 
 .nav--right {
@@ -256,6 +279,7 @@ img {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  flex: 0 0 auto;
 }
 
 .brand-name {
@@ -543,13 +567,13 @@ img {
   height: 84px;
   margin: -42px 0 0 -42px;
   border-radius: 50%;
-  background: #fff;
-  color: var(--ink);
+  background: var(--play-bg);
+  color: var(--play-color);
   display: flex;
   align-items: center;
   justify-content: center;
   padding-left: 4px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   transition: transform 0.3s ease;
 }
 
@@ -677,6 +701,7 @@ img {
   min-width: 62px;
   padding: 8px 10px 7px;
   background: var(--cream);
+  color: var(--ink);
   border: 1px solid var(--ink);
   line-height: 1;
 }
